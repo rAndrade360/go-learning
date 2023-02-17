@@ -1,0 +1,37 @@
+version: "3.4"
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.11-management
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 30s
+      retries: 3
+    networks:
+      - rabbit-ntwk
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_VHOST: "/"
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+      #RABBITMQ_ERLANG_COOKIE: "a-secret-hash"
+    volumes:
+        - .docker-conf/rabbitmq/data/:${HOME}/docker-volumes/rabbitmq/workers/lib/rabbitmq/
+        - .docker-conf/rabbitmq/log/:${HOME}/docker-volumes/rabbitmq/workers/log/rabbitmq
+  worker-api:
+    container_name: worker-api
+    build: .
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - rabbit-ntwk
+    ports:
+      - "8080:8080"
+
+networks:
+  rabbit-ntwk:
+    driver: bridge
