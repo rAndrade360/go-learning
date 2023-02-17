@@ -74,6 +74,11 @@ func main() {
 		w.Write([]byte(`{"message": "sent to queue"}`))
 	})
 
+	err = ch.Qos(1, 0, false)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	msgs, err := ch.Consume(rabbit_queue_name, "", false, false, false, false, nil)
 	if err != nil {
 		log.Fatal(err)
