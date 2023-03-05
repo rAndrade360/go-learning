@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  load-balancer:
+    build: ./load-balancer/.
+    container_name: load-balancer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service-go
+      - service-py
+    networks:
+      - lb-ntwk
+  service-py:
+    build: ./service-py/.
+    container_name: service-py
+    ports:
+      - "8091:8091"
+    networks:
+      - lb-ntwk
+  service-go:
+    build: ./service-go/.
+    container_name: service-go
+    ports:
+      - "8090:8090"
+    networks:
+      - lb-ntwk
+networks:
+  lb-ntwk:
+    driver: bridge
