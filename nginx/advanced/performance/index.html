@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>"Que demais" generator</h1>
+    <button id="but">Click here to "Que demais!"</button>
+    <img style="display:none" id="kid" src="./keep-calm-and-que-demais-ai-que-delicia.png" />
+    <script>
+        document.getElementById("but").onclick = function(){
+            let dis = document.getElementById("kid").style.display;
+            if (dis === "none") {
+                document.getElementById("kid").style.display = "block";
+            } else {
+                document.getElementById("kid").style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>
