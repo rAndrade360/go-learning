@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -10,6 +11,11 @@ func main() {
 	sm.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("Request received: ", r.Method, " ", r.URL.Path, " ")
 		w.Header().Set("Content-Type", "application/json")
+
+		if r.Header.Get("X-Delay-Server") == "golang" {
+			time.Sleep(1 * time.Second)
+		}
+
 		w.Write([]byte(`{"message": "success go"}`))
 	})
 

@@ -6,6 +6,11 @@ serverPort = 8091
 
 class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
+        d = self.headers.get("X-Delay-Server")
+        
+        if d == "python":
+           time.sleep(1) 
+
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
