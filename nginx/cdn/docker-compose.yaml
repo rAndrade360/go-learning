@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  nginx-server:
+    build: ./server/.
+    container_name: nginx-server
+    ports:
+      - "8080:80"
+    networks:
+      lb-ntwk:
+        aliases:
+          - aiquedemais.com.br
+  nginx-cdn:
+    build: ./cdn/.
+    container_name: nginx-cdn
+    ports:
+      - "8081:80"
+    networks:
+      lb-ntwk:
+        aliases:
+          - cdn.aiquedemais.com.br
+networks:
+  lb-ntwk:
+    driver: bridge
